@@ -2,6 +2,7 @@ import os
 import requests
 from bs4 import BeautifulSoup
 
+
 def download_images(search_query, num_images):
     # Create a new folder for the search query if it doesn't exist
     if not os.path.exists(search_query):
@@ -23,13 +24,14 @@ def download_images(search_query, num_images):
         try:
             response = requests.get(img_url, stream=True)
             # Extract image name from URL
-            img_name = os.path.join(search_query, f"{i+1}.jpg")
+            img_name = os.path.join(search_query, f"{i + 1}.jpg")
             with open(img_name, 'wb') as img_file:
                 for chunk in response.iter_content(1024):
                     img_file.write(chunk)
         except Exception as e:
             print(f"Failed to download {img_url}: {str(e)}")
             continue
+
 
 # Example usage
 if __name__ == "__main__":
