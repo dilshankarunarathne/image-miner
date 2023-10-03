@@ -23,7 +23,7 @@ def download_images(search_query, num_images):
 
     # Scroll down to load more images (you might need to adjust this based on the number of images you want)
     for _ in range(num_images // 20):
-        driver.find_element_by_css_selector('body').send_keys(Keys.END)
+        driver.find_element('body').send_keys(Keys.END)
         time.sleep(2)  # Wait for 2 seconds to load more images
 
     # Get image URLs
