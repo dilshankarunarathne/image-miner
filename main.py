@@ -1,26 +1,22 @@
 import os
 import requests
-from selenium import webdriver
-from selenium.webdriver.common.keys import Keys
+from bs4 import BeautifulSoup
 
 def download_images(search_query, num_images):
     # Create a new folder for the search query if it doesn't exist
     if not os.path.exists(search_query):
         os.makedirs(search_query)
 
-    # Use Selenium to perform a Google image search and download the specified number of images
-    driver = webdriver.Chrome()  # You need to have Chrome WebDriver installed.
+    # Perform a Google image search
     search_url = f"https://www.google.com/search?q={search_query}&tbm=isch"
+    response = requests.get(search_url)
 
-    driver.get(search_url)
+    # Parse the HTML content of the search results page
+    soup = BeautifulSoup(response.text, 'html.parser')
 
-    # Scroll down to load more images (you might need to adjust this based on the number of images you want)
-    for _ in range(num_images // 20):
-        driver.find_element_by_css_selector('body').send_keys(Keys.END)
-
-    # Get image URLs
-    img_elements = driver.find_elements_by_css_selector('img.rg_i')
-    img_urls = [img.get_attribute('src') for img in img_elements]
+    # Extract image URLs
+    img_tags = soup.find_all('img', class_='rg_i')
+    img_urls = [img['data-src'] for img in img_tags if 'data-src' in img.attrs]
 
     # Download the specified number of images
     for i, img_url in enumerate(img_urls[:num_images]):
@@ -34,8 +30,6 @@ def download_images(search_query, num_images):
         except Exception as e:
             print(f"Failed to download {img_url}: {str(e)}")
             continue
-
-    driver.quit()
 
 # Example usage
 if __name__ == "__main__":
