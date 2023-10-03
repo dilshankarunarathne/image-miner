@@ -27,7 +27,8 @@ def download_images(search_query, num_images):
         time.sleep(2)  # Wait for 2 seconds to load more images
 
     # Get image URLs
-    img_elements = driver.find_elements_by_css_selector('img.rg_i')
+    # img_elements = driver.find_elements_by_css_selector('img.rg_i')
+    img_elements = driver.find_element('img.rg_i')
     img_urls = [img.get_attribute('src') for img in img_elements]
 
     # Download the specified number of images
