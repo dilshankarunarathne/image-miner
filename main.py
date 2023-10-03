@@ -1,7 +1,7 @@
 import os
+import requests
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
-
 
 def download_images(search_query, num_images):
     # Create a new folder for the search query if it doesn't exist
@@ -19,14 +19,15 @@ def download_images(search_query, num_images):
         driver.find_element_by_css_selector('body').send_keys(Keys.END)
 
     # Get image URLs
-    img_urls = [img.get_attribute('src') for img in driver.find_elements_by_css_selector('img.rg_i')]
+    img_elements = driver.find_elements_by_css_selector('img.rg_i')
+    img_urls = [img.get_attribute('src') for img in img_elements]
 
     # Download the specified number of images
     for i, img_url in enumerate(img_urls[:num_images]):
         try:
             response = requests.get(img_url, stream=True)
             # Extract image name from URL
-            img_name = os.path.join(search_query, f"{i + 1}.jpg")
+            img_name = os.path.join(search_query, f"{i+1}.jpg")
             with open(img_name, 'wb') as img_file:
                 for chunk in response.iter_content(1024):
                     img_file.write(chunk)
@@ -35,7 +36,6 @@ def download_images(search_query, num_images):
             continue
 
     driver.quit()
-
 
 # Example usage
 if __name__ == "__main__":
