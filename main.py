@@ -45,4 +45,4 @@ def download_images(search_query, num_images):
     driver.quit()
 
 
-    download_images("cats", 10)
+download_images("cats", 10)
