@@ -85,7 +85,7 @@ def main():
     parser = argparse.ArgumentParser(description='Scrape Google images')
     parser.add_argument('-s', '--search', default='bananas', type=str, help='search term')
     parser.add_argument('-n', '--num_images', default=100, type=int, help='num images to save')
-    parser.add_argument('-d', '--directory', default='G:\__main__\tf_files\flower_photos', type=str, help='save directory')
+    parser.add_argument('-d', '--directory', default='images', type=str, help='save directory')
     args = parser.parse_args()
     run(args.search, args.directory, args.num_images)
 
