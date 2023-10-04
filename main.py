@@ -1,6 +1,6 @@
 import downloader
 
-
+query = input("Enter the search query: ")
 downloader.download(
     query, 
     limit=10,  
