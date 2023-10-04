@@ -28,7 +28,7 @@ def download_images(search_query, num_images):
 
         # Get the URLs of the top images
         image_urls = []
-        images = driver.find_element(By.CSS_SELECTOR, ".rg_i")
+        images = driver.find_element("css selector", ".rg_i")
         for i, image in enumerate(images):
             if i >= num_images:
                 break
