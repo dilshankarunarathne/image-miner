@@ -44,5 +44,5 @@ def download_images(search_query, num_images):
     # Quit the WebDriver
     driver.quit()
 
+
     download_images("cats", 10)
-    
