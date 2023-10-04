@@ -36,7 +36,3 @@ force_replace=False, timeout=60, filter="", verbose=True):
     print("[%] Downloading Images to {}".format(str(image_dir.absolute())))
     bing = Bing(query, limit, image_dir, adult, timeout, filter, verbose)
     bing.run()
-
-
-if __name__ == '__main__':
-    download('dog', output_dir="..\\Users\\cat", limit=10, timeout=1)
