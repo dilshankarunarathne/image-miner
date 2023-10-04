@@ -1,6 +1,6 @@
 # Image Miner
 
-This python module can download any number 
+This python module can download any number of images for a specific search query, using the Bing search engine.
 
 [![Version](https://img.shields.io/badge/version-1.0-brightgreen.svg)](https://pypi.org/project/ad-topic-recommender/)
 [![License](https://img.shields.io/badge/license-CC%20BY--NC--SA%204.0-blue.svg)](https://creativecommons.org/licenses/by-nc-sa/4.0/)
