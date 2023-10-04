@@ -3,6 +3,7 @@ import time
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.chrome.options import Options
+from selenium.webdriver.common.by import By
 
 
 def download_images(search_query, num_images):
@@ -26,7 +27,21 @@ def download_images(search_query, num_images):
             time.sleep(2)  # Wait for 2 seconds to load more images
 
         # Get the URLs of the top images
-        from selenium.webdriver.common.by import By
+        image_urls = []
+        images = driver.find_element(By.CSS_SELECTOR, ".rg_i")
+        for i, image in enumerate(images):
+            if i >= num_images:
+                break
+            image.click()
+            time.sleep(1)
+            image_url = driver.find_element_by_css_selector(".n3VNCb").get_attribute("src")
+            image_urls.append(image_url)
+
+        # Download the images
+        for i, image_url in enumerate(image_urls):
+            image_data = requests.get(image_url).content
+            with open(f"{search_query}/{i}.jpg", "wb") as f:
+                f.write(image_data)
 
     except Exception as e:
         print(f"Error: {e}")
