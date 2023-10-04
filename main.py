@@ -34,7 +34,7 @@ def download_images(search_query, num_images):
                 break
             image.click()
             time.sleep(1)
-            image_url = driver.find_element_by_css_selector(".n3VNCb").get_attribute("src")
+            image_url = driver.find_element(".n3VNCb").get_attribute("src")
             image_urls.append(image_url)
 
         # Download the images
