@@ -1,7 +1,5 @@
 import os
 import time
-
-import requests
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.chrome.options import Options
@@ -26,30 +24,25 @@ def download_images(search_query, num_images):
         driver.find_element('body').send_keys(Keys.END)
         time.sleep(2)  # Wait for 2 seconds to load more images
 
-    # Get image URLs
-    # img_elements = driver.find_elements_by_css_selector('img.rg_i')
-    img_elements = driver.find_element('img.rg_i')
-    img_urls = [img.get_attribute('src') for img in img_elements]
+    # Get the URLs of the top images
+    image_urls = []
+    images = driver.find_elements_by_css_selector(".rg_i")
+    for i, image in enumerate(images):
+        if i >= num_images:
+            break
+        image.click()
+        time.sleep(1)
+        image_url = driver.find_element_by_css_selector(".n3VNCb").get_attribute("src")
+        image_urls.append(image_url)
 
-    # Download the specified number of images
-    for i, img_url in enumerate(img_urls[:num_images]):
-        try:
-            response = requests.get(img_url, stream=True)
-            # Extract image name from URL
-            img_name = os.path.join(search_query, f"{i + 1}.jpg")
-            with open(img_name, 'wb') as img_file:
-                for chunk in response.iter_content(1024):
-                    img_file.write(chunk)
-        except Exception as e:
-            print(f"Failed to download {img_url}: {str(e)}")
-            continue
+    # Download the images
+    for i, image_url in enumerate(image_urls):
+        image_data = requests.get(image_url).content
+        with open(f"{search_query}/{i}.jpg", "wb") as f:
+            f.write(image_data)
 
+    # Quit the WebDriver
     driver.quit()
 
-
-# Example usage
-if __name__ == "__main__":
-    search_query = input("Enter search query: ")
-    num_images = int(input("Enter number of images to download: "))
-    download_images(search_query, num_images)
-    print(f"{num_images} images downloaded and stored in the '{search_query}' folder.")
+    download_images("cats", 10)
+    
