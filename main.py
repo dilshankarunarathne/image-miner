@@ -1,9 +1,11 @@
 import downloader
 
 query = input("Enter the search query: ")
+num_images = int(input("Enter the number of images: "))
+
 downloader.download(
     query, 
-    limit=10,  
+    limit=num_images,  
     output_dir='dataset', 
     adult_filter_off=False, 
     force_replace=False, 
